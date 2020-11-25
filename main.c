@@ -5,10 +5,27 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <errno.h>
 
-int main() {
+int main(int argc, char **argv) {
   DIR *directory;
-  directory = opendir(".");
+
+  char input[128];
+  char buffer[128];
+
+  if (argc > 1) {
+    strncpy(input, argv[1], sizeof(input) - 1);
+  } else {
+    printf("Enter a directory to scan: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    strncpy(input, buffer, sizeof(input) - 1);
+  }
+
+  directory = opendir(input);
+
+  if (!directory) {
+    printf("error: %s\n", strerror(errno));
+  }
 
   struct dirent *entry;
   entry = readdir(directory);
