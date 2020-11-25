@@ -15,14 +15,16 @@ int main(int argc, char **argv) {
 
   if (argc > 1) {
     strncpy(input, argv[1], sizeof(input) - 1);
+    printf("input: %s\n", input);
   } else {
-    printf("Enter a directory to scan: ");
+    printf("Enter a directory to scan:");
     fgets(buffer, sizeof(buffer), stdin);
-    strncpy(input, buffer, sizeof(input) - 1);
+    printf("buffer:%sa\n", buffer);
+    strncpy(input, buffer, strlen(buffer) - 1);
+    printf("input:%sa\n", input);
   }
 
   directory = opendir(input);
-
   if (!directory) {
     printf("error: %s\n", strerror(errno));
   }
